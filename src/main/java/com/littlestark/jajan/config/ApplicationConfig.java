@@ -1,8 +1,6 @@
 package com.littlestark.jajan.config;
 
-import com.littlestark.jajan.repository.IUserRepository;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
+import com.littlestark.jajan.repository.IAuthenticationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -16,14 +14,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.security.Key;
-
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfig {
 
     @Autowired
-    private IUserRepository userRepository;
+    private IAuthenticationRepository userRepository;
     @Bean
     public UserDetailsService userDetailsService() {
         return username -> userRepository.findByEmail(username)

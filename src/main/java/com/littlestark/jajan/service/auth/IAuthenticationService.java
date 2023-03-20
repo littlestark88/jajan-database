@@ -1,16 +1,16 @@
-package com.littlestark.jajan.service.user;
+package com.littlestark.jajan.service.auth;
 
 import com.littlestark.jajan.controller.error.NotFoundException;
 import com.littlestark.jajan.model.request.user.CreateUserRequest;
 import com.littlestark.jajan.model.request.user.LoginUserRequest;
 import com.littlestark.jajan.model.request.user.ChangePasswordRequest;
+import com.littlestark.jajan.model.response.BaseResponse;
 import com.littlestark.jajan.model.response.UserResponse;
 
-public interface IUserService {
+public interface IAuthenticationService {
 
-    UserResponse createUser(CreateUserRequest createUserRequest);
-    UserResponse findUsername(LoginUserRequest loginUserRequest) throws NotFoundException;
-    UserResponse authenticationLogin(LoginUserRequest loginUserRequest);
+    BaseResponse<Object> createUser(CreateUserRequest createUserRequest);
+    BaseResponse<Object> authenticationLogin(LoginUserRequest loginUserRequest);
 
     void putChangePassword(ChangePasswordRequest changePasswordRequest) throws Exception;
 }

@@ -2,9 +2,10 @@ package com.littlestark.jajan.model.entity;
 
 import com.littlestark.jajan.controller.user.Role;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,8 +16,11 @@ import java.util.List;
 
 
 @Data
+@Builder
 @Entity
 @Table(name = "_user_table")
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserEntity implements UserDetails {
 
     @Id
@@ -32,6 +36,9 @@ public class UserEntity implements UserDetails {
     @Column(name = "date_register")
     private LocalDateTime dateRegister;
 
+    @Column(name = "is_verification")
+    private Boolean isVerification;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
@@ -45,10 +52,10 @@ public class UserEntity implements UserDetails {
         return email;
     }
 
-    @Override
-    public String getPassword() {
-        return password;
-    }
+//    @Override
+//    public String getPassword() {
+//        return password;
+//    }
 
     @Override
     public boolean isAccountNonExpired() {
