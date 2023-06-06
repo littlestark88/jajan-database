@@ -1,10 +1,72 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
+    <option name="autoReloadType" value="NONE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="f580fe94-9473-4d76-b325-0f9b17c087ff" name="Changes" comment="" />
+    <list default="true" id="f580fe94-9473-4d76-b325-0f9b17c087ff" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dbnavigator.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dbnavigator.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/config/ApplicationConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/config/ApplicationConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/config/JwtAuthenticationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/config/JwtAuthenticationFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/config/SecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/config/SecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/controller/auth/AuthenticationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/controller/auth/AuthenticationController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/controller/error/ApiException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/controller/error/ApiRequestException.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/controller/error/ErrorController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/controller/error/ErrorController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/controller/user/UserController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/controller/user/UserController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/model/entity/TokenEntity$TokenEntityBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/model/entity/TokenEntity$TokenEntityBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/model/entity/TokenEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/model/entity/TokenEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/model/entity/UserEntity$UserEntityBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/model/entity/UserEntity$UserEntityBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/model/entity/UserEntity.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/model/entity/UserEntity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/model/response/BaseResponse$BaseResponseBuilder.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/model/response/BaseResponse$BaseResponseBuilder.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/model/response/BaseResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/model/response/BaseResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/repository/IAuthenticationRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/repository/IAuthenticationRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/repository/ITokenRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/repository/ITokenRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/service/auth/AuthenticationService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/service/auth/AuthenticationService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/service/auth/IAuthenticationService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/service/auth/IAuthenticationService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/service/email/EmailService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/service/email/EmailService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/service/jwt/JwtService.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/service/jwt/JwtService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/java/main/com/littlestark/jajan/utils/validation/ValidationUtils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/resources/main/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/build/resources/main/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/compileTransaction/stash-dir/EmailService.class.uniqueId0" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/config/ApplicationConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/config/ApplicationConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/config/JwtAuthenticationFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/config/JwtAuthenticationFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/controller/auth/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/controller/auth/AuthenticationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/controller/error/ApiException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/controller/error/ApiExceptionHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/controller/error/ApiRequestException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/controller/error/ErrorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/controller/error/ErrorController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/controller/user/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/controller/user/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/model/entity/TokenEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/model/entity/TokenEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/model/entity/UserEntity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/model/entity/UserEntity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/model/response/BaseResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/model/response/BaseResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/repository/IAuthenticationRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/repository/IAuthenticationRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/repository/ITokenRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/repository/ITokenRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/service/auth/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/service/auth/AuthenticationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/service/auth/IAuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/service/auth/IAuthenticationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/service/email/EmailService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/service/email/EmailService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/service/jwt/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/service/jwt/JwtService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/utils/validation/ValidationUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/littlestark/jajan/service/validation/ValidationUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.yml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -14,6 +76,23 @@
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
     </projectState>
+  </component>
+  <component name="ExternalProjectsManager">
+    <system id="GRADLE">
+      <state>
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="jajan" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
+      </state>
+    </system>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -34,6 +113,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
   <component name="ProjectId" id="2MiSxuNvS5FA0kzewaYB44NR6Oe" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -41,10 +123,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/LittleStark/Downloads&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.propVCSSupport.DirectoryMappings&quot;
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/agrwahyu7279/Downloads/belajar-spring-restful-api&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -83,20 +162,24 @@
     </task>
     <servers />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <ignored-roots>
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
   </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/littlestark/jajan/controller/error/ApiExceptionHandler.java</url>
-          <line>15</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

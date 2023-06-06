@@ -11,5 +11,7 @@ public class BaseResponse<T> {
     private String status;
     private String message;
     private String token;
+    private Boolean isSuccess;
+    private String id;
     private T data;
 }
