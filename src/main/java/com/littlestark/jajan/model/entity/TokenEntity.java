@@ -5,20 +5,22 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Builder
-@Table(name = "_token")
+@Table(name = "_token_table")
 @AllArgsConstructor
 @NoArgsConstructor
 public class TokenEntity {
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    private String id;
 
     @Column(unique = true)
     public String token;

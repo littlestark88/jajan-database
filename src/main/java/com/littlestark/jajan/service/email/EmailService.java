@@ -16,7 +16,6 @@ public class EmailService implements IEmail{
 
     private final JavaMailSender mailSender;
 
-
     @Override
     @Async
     public void sendEmail(String to, String email) {

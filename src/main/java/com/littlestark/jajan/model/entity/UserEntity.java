@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,8 +25,9 @@ import java.util.List;
 public class UserEntity implements UserDetails {
 
     @Id
-    @GeneratedValue
-    private Integer id;
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    private String id;
 
     @Column(name = "email")
     private String email;
@@ -36,11 +38,17 @@ public class UserEntity implements UserDetails {
     @Column(name = "date_register")
     private LocalDateTime dateRegister;
 
-    @Column(name = "is_verification")
-    private Boolean isVerification;
+    @Column(name = "verification_user")
+    private Boolean isVerificationUser;
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToOne(mappedBy = "userProfile")
+    private ProfileEntity profileEntity;
+
+    @OneToMany(mappedBy = "userProduct")
+    private List<ProductEntity> productEntity;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -51,11 +59,6 @@ public class UserEntity implements UserDetails {
     public String getUsername() {
         return email;
     }
-
-//    @Override
-//    public String getPassword() {
-//        return password;
-//    }
 
     @Override
     public boolean isAccountNonExpired() {

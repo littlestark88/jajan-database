@@ -1,10 +1,12 @@
 package com.littlestark.jajan.controller.auth;
 
+import com.littlestark.jajan.controller.error.ForbiddenException;
 import com.littlestark.jajan.model.request.user.CreateUserRequest;
 import com.littlestark.jajan.model.request.user.LoginUserRequest;
 import com.littlestark.jajan.model.response.BaseResponse;
 import com.littlestark.jajan.service.auth.IAuthenticationService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,11 +18,11 @@ public class AuthenticationController {
 
     @PostMapping(
             value = "/register",
-            produces = "application/json",
-            consumes = "application/json"
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
     )
     public BaseResponse<Object> registerUser(@RequestBody CreateUserRequest createUserRequest) {
-        BaseResponse<Object> user = userService.createUser(createUserRequest);
+        BaseResponse<Object> user = userService.registerUser(createUserRequest);
         return BaseResponse.builder()
                 .code(200)
                 .status("Success")
@@ -33,16 +35,18 @@ public class AuthenticationController {
 
     @PostMapping(
             value = "/login",
-            produces = "application/json",
-            consumes = "application/json"
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public BaseResponse<Object> authenticationUser(@RequestBody LoginUserRequest loginUserRequest){
+    public BaseResponse<Object> authenticationUser(@RequestBody LoginUserRequest loginUserRequest) throws ForbiddenException {
         BaseResponse<Object> user = userService.authenticationLogin(loginUserRequest);
         return BaseResponse.builder()
                 .code(200)
                 .status("Success")
                 .token(user.getToken())
                 .message(user.getMessage())
+                .isSuccess(user.getIsSuccess())
+                .id(user.getId())
                 .data(null)
                 .build();
     }

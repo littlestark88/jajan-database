@@ -13,23 +13,6 @@ spring:
     url: jdbc:postgresql://127.0.0.1/jajan
     username: littlestark
     password: Vouchergamers88
-  mail:
-    host: smtp.gmail.com
-    port: 8080
-    username: littlestark
-    password: Vouchergamers88
-
-    properties:
-      mail:
-        smtp:
-          ssl:
-            trust: "*"
-          auth: true
-          starttls:
-            enable: true
-          connectiontimeout: 5000
-          timeout: 3000
-          writetimeout: 5000
   jpa:
     database: POSTGRESQL
     hibernate:
@@ -42,3 +25,8 @@ spring:
           batch_size: 100
           order_inserts: true
       show-sql: true
+      format-sql: true
+application:
+  security:
+    value:
+      a

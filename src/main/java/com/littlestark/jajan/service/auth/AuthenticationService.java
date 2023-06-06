@@ -1,19 +1,20 @@
 package com.littlestark.jajan.service.auth;
 
-import com.littlestark.jajan.controller.error.NotFoundException;
+import com.littlestark.jajan.controller.error.ForbiddenException;
 import com.littlestark.jajan.controller.user.Role;
+import com.littlestark.jajan.model.entity.ProfileEntity;
 import com.littlestark.jajan.model.entity.TokenEntity;
 import com.littlestark.jajan.model.entity.UserEntity;
-import com.littlestark.jajan.model.request.user.ChangePasswordRequest;
 import com.littlestark.jajan.model.request.user.CreateUserRequest;
 import com.littlestark.jajan.model.request.user.LoginUserRequest;
 import com.littlestark.jajan.model.response.BaseResponse;
-import com.littlestark.jajan.model.response.UserResponse;
 import com.littlestark.jajan.repository.IAuthenticationRepository;
+import com.littlestark.jajan.repository.IProfileRepository;
 import com.littlestark.jajan.repository.ITokenRepository;
 import com.littlestark.jajan.service.email.IEmail;
 import com.littlestark.jajan.service.jwt.JwtService;
-import com.littlestark.jajan.utils.validation.ValidationUtils;
+import com.littlestark.jajan.service.validation.ValidationUtils;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -30,41 +31,43 @@ public class AuthenticationService implements IAuthenticationService {
 
     private IAuthenticationRepository userRepository;
     private ITokenRepository tokenRepository;
+    private IProfileRepository profileRepository;
 
 
     private final LocalDateTime localDateTime = LocalDateTime.now();
-    private ValidationUtils<CreateUserRequest> validationCreateUserRequest;
-    private ValidationUtils<LoginUserRequest> validationLoginUserRequest;
-    private ValidationUtils<ChangePasswordRequest> validationChangePasswordRequest;
+
+    private ValidationUtils validationUtils;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final IEmail emailSender;
 
     @Override
-    public BaseResponse<Object> createUser(CreateUserRequest createUserRequest) {
-        validationCreateUserRequest.validate(createUserRequest);
+    public BaseResponse<Object> registerUser(CreateUserRequest createUserRequest) {
+        validationUtils.validate(createUserRequest);
         var email = userRepository.findByEmail(createUserRequest.getEmail());
         var jwtToken = "";
         var message = "";
-        if(email.isEmpty()) {
+        if (email.isEmpty()) {
             var userEntity = UserEntity.builder()
                     .email(createUserRequest.getEmail())
                     .password(passwordEncoder.encode(createUserRequest.getPassword()))
                     .dateRegister(localDateTime)
                     .role(Role.USER)
-                    .isVerification(false)
+                    .isVerificationUser(false)
                     .build();
             var user = userRepository.save(userEntity);
             jwtToken = jwtService.generateToken(userEntity);
             message = "Berhasil daftar";
             saveUserToken(user, jwtToken);
+            createProfile(user);
             var link = "tes" + jwtToken;
             emailSender.sendEmail(
                     createUserRequest.getEmail(),
                     buildEmail(createUserRequest.getEmail(), link)
             );
-        } else  {
+            log.info("berhasil kirim email");
+        } else {
             message = "Email Sudah terdaftar";
         }
 
@@ -142,6 +145,7 @@ public class AuthenticationService implements IAuthenticationService {
                 "\n" +
                 "</div></div>";
     }
+
     private void saveUserToken(UserEntity userEntity, String jwtToken) {
         var token = TokenEntity.builder()
                 .token(jwtToken)
@@ -153,36 +157,47 @@ public class AuthenticationService implements IAuthenticationService {
         tokenRepository.save(token);
     }
 
+    private void createProfile(UserEntity userEntity) {
+        var profile = ProfileEntity.builder()
+                .isVerificationProfile(false)
+                .name("")
+                .address("")
+                .userProfile(userEntity)
+                .storeName("")
+                .dateRegister(localDateTime)
+                .phoneNumber(0)
+                .build();
+        profileRepository.save(profile);
+    }
+
     @Override
-    public BaseResponse<Object> authenticationLogin(LoginUserRequest loginUserRequest) {
-            var message = "";
-            var jwtToken = "";
-            validationLoginUserRequest.validate(loginUserRequest);
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginUserRequest.getEmail(),
-                            loginUserRequest.getPassword()
-                    )
-            );
-            var userEntity = userRepository.findByEmail(loginUserRequest.getEmail()).orElseThrow();
-            if(userEntity.getIsVerification()) {
-                jwtToken = jwtService.generateToken(userEntity);
-                message = "Berhasil Login";
-            } else {
-                message = "Data Belum verifikasi";
-            }
+    @Transactional
+    public BaseResponse<Object> authenticationLogin(LoginUserRequest loginUserRequest) throws ForbiddenException {
+        var message = "";
+        var jwtToken = "";
+        var isSuccess = false;
+        validationUtils.validate(loginUserRequest);
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        loginUserRequest.getEmail(),
+                        loginUserRequest.getPassword()
+                )
+        );
+        UserEntity userEntity = userRepository.findByEmail(loginUserRequest.getEmail()).orElseThrow();
+        jwtToken = jwtService.generateToken(userEntity);
+        if (userEntity.getIsVerificationUser()) {
+            message = "Berhasil Login";
+            isSuccess = true;
+        } else {
+            message = "Data Belum verifikasi";
+        }
 
         return BaseResponse.builder()
                 .token(jwtToken)
                 .message(message)
+                .isSuccess(isSuccess)
+                .id(userEntity.getId())
                 .build();
     }
 
-    @Override
-    public void putChangePassword(ChangePasswordRequest changePasswordRequest) throws Exception {
-//        validationChangePasswordRequest.validate(changePasswordRequest);
-//        UserEntity userEntity = userRepository.findById(changePasswordRequest.getEmail()).orElseThrow(Exception::new);
-//        userEntity.setPassword(changePasswordRequest.getPassword());
-//        userRepository.save(userEntity);
-    }
 }

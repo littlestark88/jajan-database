@@ -6,6 +6,7 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +17,12 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
+@Slf4j
 public class JwtService {
 
     private static final String SECRET_KEY = "214125442A472D4B6150645367566B597033733676397924423F4528482B4D6251655468576D5A7134743777217A25432A46294A404E635266556A586E327235";
     public String extractUsername(String token) {
+        log.info("validationEmail 1");
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -54,6 +57,7 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
+        log.info("validationEmail 3");
         return Jwts
                 .parserBuilder()
                 .setSigningKey(getSignInKey())
@@ -63,6 +67,7 @@ public class JwtService {
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        log.info("validationEmail 2");
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
