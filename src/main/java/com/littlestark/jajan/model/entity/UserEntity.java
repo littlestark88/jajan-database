@@ -50,6 +50,9 @@ public class UserEntity implements UserDetails {
     @OneToMany(mappedBy = "userProduct")
     private List<ProductEntity> productEntity;
 
+    @OneToOne(mappedBy = "userVerificationProfile")
+    private VerificationProfileEntity verificationProfileEntity;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

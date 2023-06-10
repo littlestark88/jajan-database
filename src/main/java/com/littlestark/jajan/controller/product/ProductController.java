@@ -30,4 +30,18 @@ public class ProductController {
                 .data(null)
                 .build();
     }
+
+    @GetMapping(
+            value = "/{userId}/list"
+    )
+    public BaseResponse<Object> getAllProductByUserId(
+            @PathVariable String userId) {
+        BaseResponse<Object> product = productService.getAllProductByUserId(userId);
+        return BaseResponse.builder()
+                .code(200)
+                .status("Success")
+                .message("")
+                .data(product)
+                .build();
+    }
 }

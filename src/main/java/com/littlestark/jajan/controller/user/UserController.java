@@ -15,11 +15,12 @@ public class UserController {
     private IUserService userService;
 
     @PutMapping(
-            value = "/{userId}"
+            value = "/{userId}/change-password",
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
     public BaseResponse<Object> changePassword(
             @PathVariable("userId") String userId,
-            @RequestParam("change-password") String password
+            @RequestParam("value") String password
     ) {
         BaseResponse<Object> user = userService.changePassword(userId,password);
         return BaseResponse.builder()
@@ -30,11 +31,12 @@ public class UserController {
     }
 
     @PutMapping(
-            value = "/{userId}"
+            value = "/{userId}/verification",
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
     public BaseResponse<Object> verificationUser(
             @PathVariable("userId") String userId,
-            @RequestParam("verification") Boolean isVerificationUser
+            @RequestParam("value") Boolean isVerificationUser
     ) {
         BaseResponse<Object> user = userService.verificationUser(userId,isVerificationUser);
         return BaseResponse.builder()

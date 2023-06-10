@@ -1,12 +1,15 @@
 package com.littlestark.jajan.service.product;
 
 import com.littlestark.jajan.model.entity.ProductEntity;
+import com.littlestark.jajan.model.entity.UserEntity;
 import com.littlestark.jajan.model.request.user.ProductRequest;
 import com.littlestark.jajan.model.response.BaseResponse;
 import com.littlestark.jajan.repository.IAuthenticationRepository;
 import com.littlestark.jajan.repository.IProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -37,6 +40,15 @@ public class ProductService implements IProductService {
         return BaseResponse
                 .builder()
                 .message("Berhasil menambahkan product baru")
+                .build();
+    }
+
+    @Override
+    public BaseResponse<Object> getAllProductByUserId(String userId) {
+        var userEntity = authenticationRepository.findById(userId).orElseThrow();
+        List<ProductEntity> productUser = userEntity.getProductEntity();
+        return BaseResponse.builder()
+                .data(productUser)
                 .build();
     }
 }

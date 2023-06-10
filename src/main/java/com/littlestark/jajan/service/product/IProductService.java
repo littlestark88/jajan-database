@@ -7,4 +7,5 @@ import com.littlestark.jajan.model.response.BaseResponse;
 public interface IProductService {
 
     BaseResponse<Object> createProduct(String userId, ProductRequest productRequest);
+    BaseResponse<Object> getAllProductByUserId(String userId);
 }
