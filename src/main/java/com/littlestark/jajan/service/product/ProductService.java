@@ -6,10 +6,15 @@ import com.littlestark.jajan.model.request.user.ProductRequest;
 import com.littlestark.jajan.model.response.BaseResponse;
 import com.littlestark.jajan.repository.IAuthenticationRepository;
 import com.littlestark.jajan.repository.IProductRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -44,11 +49,15 @@ public class ProductService implements IProductService {
     }
 
     @Override
-    public BaseResponse<Object> getAllProductByUserId(String userId) {
-        var userEntity = authenticationRepository.findById(userId).orElseThrow();
-        List<ProductEntity> productUser = userEntity.getProductEntity();
+    @Transactional
+    public BaseResponse<Object> getProductByUserId(String userId) {
+
+//        var user = authenticationRepository.findById(userId).orElseThrow();
+        var product = productRepository.findProductById(userId);
+//        var user = productRepository.findFirstByUserAndId(userEntity, userId)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product kosong"));
         return BaseResponse.builder()
-                .data(productUser)
+                .data(product)
                 .build();
     }
 }

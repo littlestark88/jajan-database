@@ -39,7 +39,7 @@ public class ProductEntity {
     @Column(name = "category_product")
     private String categoryProduct;
 
-    @ManyToOne()
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
             name = "user_id",
             referencedColumnName = "id"

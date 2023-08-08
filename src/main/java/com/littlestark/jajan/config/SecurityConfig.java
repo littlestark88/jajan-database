@@ -1,5 +1,6 @@
 package com.littlestark.jajan.config;
 
+import com.littlestark.jajan.controller.user.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +11,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import static com.littlestark.jajan.controller.user.Role.USER;
+import static org.springframework.http.HttpMethod.GET;
 
 @Configuration
 @EnableWebSecurity
@@ -28,7 +32,7 @@ public class SecurityConfig {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/jajan/v1/auth/**").permitAll()
-                .requestMatchers("/api/jajan/v1/profile/get/**").permitAll()
+//                .requestMatchers(GET,"/api/jajan/v1/product/**").hasRole("USER")
                 .anyRequest()
                 .authenticated()
                 .and()
