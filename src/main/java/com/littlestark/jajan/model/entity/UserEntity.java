@@ -47,7 +47,7 @@ public class UserEntity implements UserDetails {
     @OneToOne(mappedBy = "userProfile")
     private ProfileEntity profileEntity;
 
-    @OneToMany(mappedBy = "userProduct")
+    @OneToMany(mappedBy = "userProduct", cascade = CascadeType.ALL)
     private List<ProductEntity> productEntity;
 
     @OneToOne(mappedBy = "userVerificationProfile")

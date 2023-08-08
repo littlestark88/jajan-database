@@ -1,15 +1,22 @@
 package com.littlestark.jajan.controller.product;
 
+import com.littlestark.jajan.model.entity.ProductEntity;
+import com.littlestark.jajan.model.entity.UserEntity;
 import com.littlestark.jajan.model.request.user.ProductRequest;
 import com.littlestark.jajan.model.response.BaseResponse;
 import com.littlestark.jajan.service.product.IProductService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/jajan/v1/product")
+@Slf4j
 public class ProductController {
 
     private IProductService productService;
@@ -19,7 +26,7 @@ public class ProductController {
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE
     )
-    public BaseResponse<Object> registerUser(
+    public BaseResponse<Object> createProduct(
             @PathVariable String userId,
             @RequestBody ProductRequest productRequest) {
         BaseResponse<Object> product = productService.createProduct(userId, productRequest);
@@ -31,17 +38,21 @@ public class ProductController {
                 .build();
     }
 
+
     @GetMapping(
-            value = "/{userId}/list"
+            value = "/{userId}/list",
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public BaseResponse<Object> getAllProductByUserId(
-            @PathVariable String userId) {
-        BaseResponse<Object> product = productService.getAllProductByUserId(userId);
+    public BaseResponse<Object> getProductByUserId(
+            UserEntity userEntity,
+            @PathVariable("userId") String userId) {
+        log.info("data id" + userId);
+        BaseResponse<Object> productByUserId = productService.getProductByUserId(userEntity, userId);
         return BaseResponse.builder()
                 .code(200)
                 .status("Success")
                 .message("")
-                .data(product)
+                .data(productByUserId.getData())
                 .build();
     }
 }
