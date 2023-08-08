@@ -44,10 +44,8 @@ public class ProductController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public BaseResponse<Object> getProductByUserId(
-            UserEntity userEntity,
             @PathVariable("userId") String userId) {
-        log.info("data id" + userId);
-        BaseResponse<Object> productByUserId = productService.getProductByUserId(userEntity, userId);
+        BaseResponse<Object> productByUserId = productService.getProductByUserId(userId);
         return BaseResponse.builder()
                 .code(200)
                 .status("Success")

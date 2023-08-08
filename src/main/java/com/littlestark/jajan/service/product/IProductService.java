@@ -11,5 +11,5 @@ import java.util.Optional;
 public interface IProductService {
 
     BaseResponse<Object> createProduct(String userId, ProductRequest productRequest);
-    BaseResponse<Object> getProductByUserId(UserEntity userEntity, String userId);
+    BaseResponse<Object> getProductByUserId(String userId);
 }

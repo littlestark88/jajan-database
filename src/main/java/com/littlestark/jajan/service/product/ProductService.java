@@ -50,11 +50,14 @@ public class ProductService implements IProductService {
 
     @Override
     @Transactional
-    public BaseResponse<Object> getProductByUserId(UserEntity userEntity, String userId) {
-        var user = productRepository.findFirstByUserAndId(userEntity, userId)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product kosong"));
+    public BaseResponse<Object> getProductByUserId(String userId) {
+
+//        var user = authenticationRepository.findById(userId).orElseThrow();
+        var product = productRepository.findProductById(userId);
+//        var user = productRepository.findFirstByUserAndId(userEntity, userId)
+//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product kosong"));
         return BaseResponse.builder()
-                .data(user)
+                .data(product)
                 .build();
     }
 }

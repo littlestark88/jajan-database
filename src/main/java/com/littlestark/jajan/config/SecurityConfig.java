@@ -32,7 +32,7 @@ public class SecurityConfig {
                 .disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/jajan/v1/auth/**").permitAll()
-                .requestMatchers(GET,"/api/jajan/v1/product/**").hasRole("USER")
+//                .requestMatchers(GET,"/api/jajan/v1/product/**").hasRole("USER")
                 .anyRequest()
                 .authenticated()
                 .and()
