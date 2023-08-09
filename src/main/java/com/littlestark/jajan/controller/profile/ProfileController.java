@@ -3,6 +3,7 @@ package com.littlestark.jajan.controller.profile;
 import com.littlestark.jajan.model.response.BaseResponse;
 import com.littlestark.jajan.service.profile.IProfileService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -32,11 +33,13 @@ public class ProfileController {
                 .build();
     }
 
-    @PostMapping("/get/{userId}/image-verification")
+    @PostMapping(
+            value = "/{userId}/image-verification"
+    )
     public BaseResponse<Object> uploadVerificationProfile(
             @RequestParam("value") MultipartFile file,
             @PathVariable("userId") String userId
-            ) throws IOException {
+            ) {
         BaseResponse<Object> profile = profileService.uploadImageVerificationProfile(
                 userId,
                 file);
@@ -48,7 +51,7 @@ public class ProfileController {
     }
 
     @GetMapping(value = "/image")
-    public BaseResponse<Object> getImageVerification() throws IOException {
+    public BaseResponse<Object> getImageVerification() {
         BaseResponse<Object> profile = profileService.getAllImageVerificationProfile();
         return BaseResponse.builder()
                 .code(200)

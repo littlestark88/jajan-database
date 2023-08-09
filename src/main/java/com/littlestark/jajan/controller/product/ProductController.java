@@ -1,17 +1,15 @@
 package com.littlestark.jajan.controller.product;
 
-import com.littlestark.jajan.model.entity.ProductEntity;
-import com.littlestark.jajan.model.entity.UserEntity;
 import com.littlestark.jajan.model.request.user.ProductRequest;
 import com.littlestark.jajan.model.response.BaseResponse;
 import com.littlestark.jajan.service.product.IProductService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Optional;
+import java.io.IOException;
 
 @RestController
 @AllArgsConstructor
@@ -28,8 +26,9 @@ public class ProductController {
     )
     public BaseResponse<Object> createProduct(
             @PathVariable String userId,
-            @RequestBody ProductRequest productRequest) {
-        BaseResponse<Object> product = productService.createProduct(userId, productRequest);
+            @RequestBody ProductRequest productRequest,
+            @RequestParam("imageProduct")MultipartFile imageProduct) throws IOException {
+        BaseResponse<Object> product = productService.createProduct(userId, productRequest, imageProduct);
         return BaseResponse.builder()
                 .code(200)
                 .status("Success")

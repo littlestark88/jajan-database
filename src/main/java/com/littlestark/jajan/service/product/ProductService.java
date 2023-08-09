@@ -6,13 +6,17 @@ import com.littlestark.jajan.model.request.user.ProductRequest;
 import com.littlestark.jajan.model.response.BaseResponse;
 import com.littlestark.jajan.repository.IAuthenticationRepository;
 import com.littlestark.jajan.repository.IProductRepository;
+import com.littlestark.jajan.utils.Utils;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +29,7 @@ public class ProductService implements IProductService {
     private IProductRepository productRepository;
 
     @Override
-    public BaseResponse<Object> createProduct(String userId, ProductRequest productRequest) {
+    public BaseResponse<Object> createProduct(String userId, ProductRequest productRequest, MultipartFile imageProduct) throws IOException {
 
         var userEntity = authenticationRepository.findById(userId).orElseThrow();
 
@@ -35,7 +39,7 @@ public class ProductService implements IProductService {
                 .descriptionProduct(productRequest.getDescriptionProduct())
                 .typeProduct(productRequest.getTypeProduct())
                 .price(productRequest.getPriceProduct())
-                .imageProduct(productRequest.getImageProduct())
+                .imageProduct(Utils.compressImage(imageProduct.getBytes()))
                 .categoryProduct(productRequest.getCategoryProduct())
                 .userProduct(userEntity)
                 .build();

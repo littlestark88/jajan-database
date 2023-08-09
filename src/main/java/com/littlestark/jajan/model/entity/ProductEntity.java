@@ -34,7 +34,8 @@ public class ProductEntity {
     private Long price;
 
     @Column(name = "image_product")
-    private String imageProduct;
+    @Lob
+    private byte[] imageProduct;
 
     @Column(name = "category_product")
     private String categoryProduct;
