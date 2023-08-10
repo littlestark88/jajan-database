@@ -14,4 +14,5 @@ public interface IProductService {
 
     BaseResponse<Object> createProduct(String userId, ProductRequest productRequest, MultipartFile imageProduct) throws IOException;
     BaseResponse<Object> getProductByUserId(String userId);
+    ProductEntity getImageById(String id);
 }

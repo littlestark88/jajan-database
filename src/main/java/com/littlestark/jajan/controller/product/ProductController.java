@@ -6,6 +6,7 @@ import com.littlestark.jajan.service.product.IProductService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,12 +23,15 @@ public class ProductController {
     @PostMapping(
             value = "/{userId}/create",
             produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE
+            consumes = {
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.MULTIPART_FORM_DATA_VALUE
+            }
     )
     public BaseResponse<Object> createProduct(
             @PathVariable String userId,
-            @RequestBody ProductRequest productRequest,
-            @RequestParam("imageProduct")MultipartFile imageProduct) throws IOException {
+            @RequestPart("product") ProductRequest productRequest,
+            @RequestPart("imageProduct")MultipartFile imageProduct) throws IOException {
         BaseResponse<Object> product = productService.createProduct(userId, productRequest, imageProduct);
         return BaseResponse.builder()
                 .code(200)
@@ -51,5 +55,19 @@ public class ProductController {
                 .message("")
                 .data(productByUserId.getData())
                 .build();
+    }
+
+    @GetMapping(
+            value = "/image-product/{id}",
+            produces = MediaType.IMAGE_JPEG_VALUE
+    )
+    public ResponseEntity<byte[]> getFiles(
+            @PathVariable String id
+    ) {
+        var filesDB = productService.getImageById(id);
+
+        return ResponseEntity.ok()
+                .body(filesDB.getImageProduct());
+
     }
 }

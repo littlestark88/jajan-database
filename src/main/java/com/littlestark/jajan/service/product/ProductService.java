@@ -18,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -32,14 +33,13 @@ public class ProductService implements IProductService {
     public BaseResponse<Object> createProduct(String userId, ProductRequest productRequest, MultipartFile imageProduct) throws IOException {
 
         var userEntity = authenticationRepository.findById(userId).orElseThrow();
-
         var product = ProductEntity
                 .builder()
                 .titleName(productRequest.getTitleProduct())
                 .descriptionProduct(productRequest.getDescriptionProduct())
                 .typeProduct(productRequest.getTypeProduct())
                 .price(productRequest.getPriceProduct())
-                .imageProduct(Utils.compressImage(imageProduct.getBytes()))
+                .imageProduct(imageProduct.getBytes())
                 .categoryProduct(productRequest.getCategoryProduct())
                 .userProduct(userEntity)
                 .build();
@@ -63,5 +63,10 @@ public class ProductService implements IProductService {
         return BaseResponse.builder()
                 .data(product)
                 .build();
+    }
+
+    @Override
+    public ProductEntity getImageById(String id) {
+        return productRepository.findById(id).get();
     }
 }
