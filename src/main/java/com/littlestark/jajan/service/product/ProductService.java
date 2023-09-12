@@ -1,32 +1,27 @@
 package com.littlestark.jajan.service.product;
 
 import com.littlestark.jajan.model.entity.ProductEntity;
-import com.littlestark.jajan.model.entity.UserEntity;
-import com.littlestark.jajan.model.request.user.ProductRequest;
+import com.littlestark.jajan.model.request.product.ProductRequest;
 import com.littlestark.jajan.model.response.BaseResponse;
 import com.littlestark.jajan.repository.IAuthenticationRepository;
 import com.littlestark.jajan.repository.IProductRepository;
-import com.littlestark.jajan.utils.Utils;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 public class ProductService implements IProductService {
 
+    @Autowired
     private IAuthenticationRepository authenticationRepository;
-
+    @Autowired
     private IProductRepository productRepository;
 
     @Override
@@ -54,12 +49,11 @@ public class ProductService implements IProductService {
 
     @Override
     @Transactional
-    public BaseResponse<Object> getProductByUserId(String userId) {
+    public BaseResponse<Object> getProductByUserId(String userId, int page, int size) {
 
-//        var user = authenticationRepository.findById(userId).orElseThrow();
-        var product = productRepository.findProductById(userId);
-//        var user = productRepository.findFirstByUserAndId(userEntity, userId)
-//                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product kosong"));
+        Pageable pageable = PageRequest.of(page, size);
+        var product = productRepository.findProductById(userId, pageable);
+
         return BaseResponse.builder()
                 .data(product)
                 .build();

@@ -4,6 +4,7 @@ import com.littlestark.jajan.controller.error.ForbiddenException;
 import com.littlestark.jajan.model.request.user.CreateUserRequest;
 import com.littlestark.jajan.model.request.user.LoginUserRequest;
 import com.littlestark.jajan.model.response.BaseResponse;
+import com.littlestark.jajan.model.response.user.LoginResponse;
 import com.littlestark.jajan.service.auth.IAuthenticationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
@@ -40,14 +41,14 @@ public class AuthenticationController {
     )
     public BaseResponse<Object> authenticationUser(@RequestBody LoginUserRequest loginUserRequest) throws ForbiddenException {
         BaseResponse<Object> user = userService.authenticationLogin(loginUserRequest);
+        LoginResponse loginResponse = new LoginResponse(user.getData().toString());
         return BaseResponse.builder()
                 .code(200)
                 .status("Success")
                 .token(user.getToken())
                 .message(user.getMessage())
                 .isSuccess(user.getIsSuccess())
-                .id(user.getId())
-                .data(null)
+                .data(loginResponse)
                 .build();
     }
 }

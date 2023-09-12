@@ -1,8 +1,9 @@
 package com.littlestark.jajan.controller.product;
 
-import com.littlestark.jajan.model.request.user.ProductRequest;
+import com.littlestark.jajan.model.request.product.ProductRequest;
 import com.littlestark.jajan.model.response.BaseResponse;
 import com.littlestark.jajan.service.product.IProductService;
+import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -47,8 +48,10 @@ public class ProductController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public BaseResponse<Object> getProductByUserId(
-            @PathVariable("userId") String userId) {
-        BaseResponse<Object> productByUserId = productService.getProductByUserId(userId);
+            @PathVariable("userId") String userId,
+            @PathParam("page") int page,
+            @PathParam("size") int size) {
+        BaseResponse<Object> productByUserId = productService.getProductByUserId(userId, page, size);
         return BaseResponse.builder()
                 .code(200)
                 .status("Success")

@@ -27,5 +27,11 @@ public class CreateUserRequest {
             message = "Password tidak boleh kosong, mohon untuk memasukan password anda"
     )
     @NotNull
-    String password;
+    private String password;
+
+    @NotBlank(
+            message = "No HP tidak boleh kosong, mohon untuk memasukan no HP anda"
+    )
+    @NotNull
+    private String phoneNumber;
 }

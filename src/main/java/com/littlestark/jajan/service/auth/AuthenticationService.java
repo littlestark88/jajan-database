@@ -2,14 +2,14 @@ package com.littlestark.jajan.service.auth;
 
 import com.littlestark.jajan.controller.error.ForbiddenException;
 import com.littlestark.jajan.controller.user.Role;
-import com.littlestark.jajan.model.entity.ProfileEntity;
+import com.littlestark.jajan.model.entity.StoreEntity;
 import com.littlestark.jajan.model.entity.TokenEntity;
 import com.littlestark.jajan.model.entity.UserEntity;
 import com.littlestark.jajan.model.request.user.CreateUserRequest;
 import com.littlestark.jajan.model.request.user.LoginUserRequest;
 import com.littlestark.jajan.model.response.BaseResponse;
 import com.littlestark.jajan.repository.IAuthenticationRepository;
-import com.littlestark.jajan.repository.IProfileRepository;
+import com.littlestark.jajan.repository.IStoreRepository;
 import com.littlestark.jajan.repository.ITokenRepository;
 import com.littlestark.jajan.service.email.IEmail;
 import com.littlestark.jajan.service.jwt.JwtService;
@@ -17,6 +17,7 @@ import com.littlestark.jajan.service.validation.ValidationUtils;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,16 +30,19 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class AuthenticationService implements IAuthenticationService {
 
+    @Autowired
     private IAuthenticationRepository userRepository;
+    @Autowired
     private ITokenRepository tokenRepository;
-    private IProfileRepository profileRepository;
-
-
+    @Autowired
+    private IStoreRepository storeRepository;
     private final LocalDateTime localDateTime = LocalDateTime.now();
-
+    @Autowired
     private ValidationUtils validationUtils;
     private final PasswordEncoder passwordEncoder;
+    @Autowired
     private final JwtService jwtService;
+    @Autowired
     private final AuthenticationManager authenticationManager;
     private final IEmail emailSender;
 
@@ -48,6 +52,7 @@ public class AuthenticationService implements IAuthenticationService {
         var email = userRepository.findByEmail(createUserRequest.getEmail());
         var jwtToken = "";
         var message = "";
+        var isSuccess = false;
         if (email.isEmpty()) {
             var userEntity = UserEntity.builder()
                     .email(createUserRequest.getEmail())
@@ -55,23 +60,25 @@ public class AuthenticationService implements IAuthenticationService {
                     .dateRegister(localDateTime)
                     .role(Role.USER)
                     .isVerificationUser(false)
+                    .phoneNumber(createUserRequest.getPhoneNumber())
                     .build();
             var user = userRepository.save(userEntity);
             jwtToken = jwtService.generateToken(userEntity);
-            message = "Berhasil daftar";
+            message = "Berhasil daftar email, silahkan check email anda untuk verifikasi email !";
+            isSuccess = true;
             saveUserToken(user, jwtToken);
-            createProfile(user);
+            saveUserStore(user);
             var link = "tes" + jwtToken;
             emailSender.sendEmail(
                     createUserRequest.getEmail(),
                     buildEmail(createUserRequest.getEmail(), link)
             );
-            log.info("berhasil kirim email");
         } else {
-            message = "Email Sudah terdaftar";
+            message = "Email Sudah terdaftar, silahkan melakukan login atau gunakan email yang lain !";
         }
 
         return BaseResponse.builder()
+                .isSuccess(isSuccess)
                 .token(jwtToken)
                 .message(message)
                 .build();
@@ -157,25 +164,22 @@ public class AuthenticationService implements IAuthenticationService {
         tokenRepository.save(token);
     }
 
-    private void createProfile(UserEntity userEntity) {
-        var profile = ProfileEntity.builder()
-                .isVerificationProfile(false)
-                .name("")
+    private void saveUserStore(UserEntity userEntity) {
+        var store = StoreEntity.builder()
+                .nameStore("")
                 .address("")
-                .userProfile(userEntity)
-                .storeName("")
-                .dateRegister(localDateTime)
-                .phoneNumber(0)
+                .district("")
+                .regency("")
+                .isVerificationStore(false)
+                .userStore(userEntity)
                 .build();
-        profileRepository.save(profile);
+        storeRepository.save(store);
     }
 
     @Override
     @Transactional
     public BaseResponse<Object> authenticationLogin(LoginUserRequest loginUserRequest) throws ForbiddenException {
-        var message = "";
-        var jwtToken = "";
-        var isSuccess = false;
+
         validationUtils.validate(loginUserRequest);
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -184,19 +188,12 @@ public class AuthenticationService implements IAuthenticationService {
                 )
         );
         UserEntity userEntity = userRepository.findByEmail(loginUserRequest.getEmail()).orElseThrow();
-        jwtToken = jwtService.generateToken(userEntity);
-        if (userEntity.getIsVerificationUser()) {
-            message = "Berhasil Login";
-            isSuccess = true;
-        } else {
-            message = "Data Belum verifikasi";
-        }
 
         return BaseResponse.builder()
-                .token(jwtToken)
-                .message(message)
-                .isSuccess(isSuccess)
-                .id(userEntity.getId())
+                .token(jwtService.generateToken(userEntity))
+                .message("Berhasil Login")
+                .isSuccess(true)
+                .data(userEntity.getId())
                 .build();
     }
 

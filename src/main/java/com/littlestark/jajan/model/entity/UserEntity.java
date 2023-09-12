@@ -35,6 +35,9 @@ public class UserEntity implements UserDetails {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
     @Column(name = "date_register")
     private LocalDateTime dateRegister;
 
@@ -44,14 +47,15 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToOne(mappedBy = "userProfile")
-    private ProfileEntity profileEntity;
+
+    @OneToOne(mappedBy = "userStore")
+    private StoreEntity storeEntity;
 
     @OneToMany(mappedBy = "userProduct", cascade = CascadeType.ALL)
     private List<ProductEntity> productEntity;
 
-    @OneToOne(mappedBy = "userVerificationProfile")
-    private VerificationProfileEntity verificationProfileEntity;
+    @OneToOne(mappedBy = "userVerification")
+    private VerificationUserEntity verificationUserEntity;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
