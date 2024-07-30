@@ -8,6 +8,6 @@ import com.littlestark.jajan.model.response.BaseResponse;
 public interface IAuthenticationService {
 
     BaseResponse<Object> registerUser(CreateUserRequest createUserRequest);
-    BaseResponse<Object> authenticationLogin(LoginUserRequest loginUserRequest) throws ForbiddenException;
+    BaseResponse<Object> authenticationLogin(LoginUserRequest loginUserRequest);
 
 }

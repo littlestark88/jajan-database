@@ -13,7 +13,7 @@ public class StoreResponse {
     private String id;
     private String nameStore;
     private String address;
-    private String district;
-    private String regency;
+    private String imageStore;
+    private boolean isVerificationStore;
     private String userId;
 }

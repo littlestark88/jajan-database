@@ -9,11 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductRequest {
 
-    private String titleProduct;
+    private String nameProduct;
 
     private String descriptionProduct;
 
-    private String typeProduct;
+    private String imageProduct;
 
     private Long priceProduct;
 

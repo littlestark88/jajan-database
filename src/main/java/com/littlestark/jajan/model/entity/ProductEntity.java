@@ -21,20 +21,16 @@ public class ProductEntity {
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
-    @Column(name = "title_product")
-    private String titleName;
+    @Column(name = "name_product")
+    private String nameProduct;
 
     @Column(name = "description_product")
     private String descriptionProduct;
 
-    @Column(name = "type_product")
-    private String typeProduct;
-
     @Column(name = "price")
     private Long price;
 
-    @Column(name = "image_product")
-    @Lob
+    @Column(name = "image_product", length = 1000)
     private byte[] imageProduct;
 
     @Column(name = "category_product")
@@ -42,8 +38,8 @@ public class ProductEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(
-            name = "user_id",
+            name = "store_id",
             referencedColumnName = "id"
     )
-    private UserEntity userProduct;
+    private StoreEntity storeProduct;
 }

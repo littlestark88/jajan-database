@@ -2,6 +2,7 @@ package com.littlestark.jajan.repository;
 
 import com.littlestark.jajan.model.entity.ProductEntity;
 import com.littlestark.jajan.model.response.product.ProductResponse;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -12,9 +13,6 @@ import java.util.List;
 
 @Repository
 public interface IProductRepository extends JpaRepository<ProductEntity, String> {
-    @Query("SELECT new com.littlestark.jajan.model.response.product.ProductResponse" +
-            "(p.id, p.titleName, p.descriptionProduct, p.typeProduct, p.price, p.categoryProduct) " +
-            "FROM ProductEntity p " +
-            "WHERE p.userProduct.id = :userId")
-    List<ProductResponse> findProductById(@Param("userId")String userId, Pageable pageable);
+    @Query("SELECT p FROM ProductEntity p WHERE p.storeProduct.id = :storeId")
+    Page<ProductEntity> findByStoreProductId(@Param("storeId")String storeId, Pageable pageable);
 }

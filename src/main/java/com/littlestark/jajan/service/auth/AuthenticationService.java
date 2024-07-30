@@ -2,19 +2,17 @@ package com.littlestark.jajan.service.auth;
 
 import com.littlestark.jajan.controller.error.ForbiddenException;
 import com.littlestark.jajan.controller.user.Role;
-import com.littlestark.jajan.model.entity.StoreEntity;
 import com.littlestark.jajan.model.entity.TokenEntity;
 import com.littlestark.jajan.model.entity.UserEntity;
 import com.littlestark.jajan.model.request.user.CreateUserRequest;
 import com.littlestark.jajan.model.request.user.LoginUserRequest;
 import com.littlestark.jajan.model.response.BaseResponse;
 import com.littlestark.jajan.repository.IAuthenticationRepository;
-import com.littlestark.jajan.repository.IStoreRepository;
 import com.littlestark.jajan.repository.ITokenRepository;
 import com.littlestark.jajan.service.email.IEmail;
 import com.littlestark.jajan.service.jwt.JwtService;
 import com.littlestark.jajan.service.validation.ValidationUtils;
-import jakarta.transaction.Transactional;
+import com.littlestark.jajan.utils.ResourceValue;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +20,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
@@ -34,8 +33,6 @@ public class AuthenticationService implements IAuthenticationService {
     private IAuthenticationRepository userRepository;
     @Autowired
     private ITokenRepository tokenRepository;
-    @Autowired
-    private IStoreRepository storeRepository;
     private final LocalDateTime localDateTime = LocalDateTime.now();
     @Autowired
     private ValidationUtils validationUtils;
@@ -45,13 +42,14 @@ public class AuthenticationService implements IAuthenticationService {
     @Autowired
     private final AuthenticationManager authenticationManager;
     private final IEmail emailSender;
+    private final ResourceValue resourceValue;
 
     @Override
     public BaseResponse<Object> registerUser(CreateUserRequest createUserRequest) {
         validationUtils.validate(createUserRequest);
         var email = userRepository.findByEmail(createUserRequest.getEmail());
-        var jwtToken = "";
-        var message = "";
+        var jwtToken = resourceValue.getEmptyString();
+        var message = resourceValue.getEmptyString();
         var isSuccess = false;
         if (email.isEmpty()) {
             var userEntity = UserEntity.builder()
@@ -64,23 +62,21 @@ public class AuthenticationService implements IAuthenticationService {
                     .build();
             var user = userRepository.save(userEntity);
             jwtToken = jwtService.generateToken(userEntity);
-            message = "Berhasil daftar email, silahkan check email anda untuk verifikasi email !";
-            isSuccess = true;
+            message = resourceValue.getSuccessRegisterEmail();
             saveUserToken(user, jwtToken);
-            saveUserStore(user);
             var link = "tes" + jwtToken;
             emailSender.sendEmail(
                     createUserRequest.getEmail(),
                     buildEmail(createUserRequest.getEmail(), link)
             );
+            isSuccess = true;
         } else {
-            message = "Email Sudah terdaftar, silahkan melakukan login atau gunakan email yang lain !";
+            message = resourceValue.getRegisteredEmail();
         }
 
         return BaseResponse.builder()
-                .isSuccess(isSuccess)
-                .token(jwtToken)
                 .message(message)
+                .isSuccess(isSuccess)
                 .build();
     }
 
@@ -164,21 +160,9 @@ public class AuthenticationService implements IAuthenticationService {
         tokenRepository.save(token);
     }
 
-    private void saveUserStore(UserEntity userEntity) {
-        var store = StoreEntity.builder()
-                .nameStore("")
-                .address("")
-                .district("")
-                .regency("")
-                .isVerificationStore(false)
-                .userStore(userEntity)
-                .build();
-        storeRepository.save(store);
-    }
-
     @Override
     @Transactional
-    public BaseResponse<Object> authenticationLogin(LoginUserRequest loginUserRequest) throws ForbiddenException {
+    public BaseResponse<Object> authenticationLogin(LoginUserRequest loginUserRequest) {
 
         validationUtils.validate(loginUserRequest);
         authenticationManager.authenticate(
@@ -188,13 +172,21 @@ public class AuthenticationService implements IAuthenticationService {
                 )
         );
         UserEntity userEntity = userRepository.findByEmail(loginUserRequest.getEmail()).orElseThrow();
+        var token = resourceValue.getEmptyString();
+        var message = resourceValue.getEmptyString();
+        var isSuccess = false;
+        if(passwordEncoder.matches(loginUserRequest.getPassword(), userEntity.getPassword())) {
+            token = jwtService.generateToken(userEntity);
+            message = resourceValue.getSuccessLogin();
+            isSuccess = true;
+
+        }
 
         return BaseResponse.builder()
-                .token(jwtService.generateToken(userEntity))
-                .message("Berhasil Login")
-                .isSuccess(true)
+                .token(token)
+                .message(message)
                 .data(userEntity.getId())
+                .isSuccess(isSuccess)
                 .build();
     }
-
 }

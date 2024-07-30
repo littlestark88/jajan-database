@@ -1,5 +1,7 @@
 package com.littlestark.jajan.controller.user;
 
+import com.littlestark.jajan.model.request.user.ChangePasswordRequest;
+import com.littlestark.jajan.model.request.user.ChangePhoneNumberRequest;
 import com.littlestark.jajan.model.response.BaseResponse;
 import com.littlestark.jajan.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,13 +27,12 @@ public class UserController {
     )
     public BaseResponse<Object> changePassword(
             @PathVariable("userId") String userId,
-            @RequestParam("value") String password
-    ) {
-        BaseResponse<Object> user = userService.changePassword(userId,password);
+            @RequestBody ChangePasswordRequest changePasswordRequest
+            ) {
+        BaseResponse<Object> user = userService.changePassword(userId,changePasswordRequest);
         return BaseResponse.builder()
-                .code(user.getCode())
-                .isSuccess(true)
-                .message("Berhasil ganti password")
+                .message(user.getMessage())
+                .isSuccess(user.isSuccess())
                 .build();
     }
 
@@ -41,13 +42,12 @@ public class UserController {
     )
     public BaseResponse<Object> changePhoneNumber(
             @PathVariable("userId") String userId,
-            @RequestParam("value") String phoneNumber
-    ) {
-        BaseResponse<Object> user = userService.changePhoneNumber(userId,phoneNumber);
+            @RequestBody ChangePhoneNumberRequest changePhoneNumberRequest
+            ) {
+        BaseResponse<Object> user = userService.changePhoneNumber(userId,changePhoneNumberRequest);
         return BaseResponse.builder()
-                .code(user.getCode())
-                .isSuccess(true)
-                .message("Berhasil ganti no hp")
+                .message(user.getMessage())
+                .isSuccess(user.isSuccess())
                 .build();
     }
 
@@ -61,59 +61,9 @@ public class UserController {
     ) {
         BaseResponse<Object> user = userService.verificationUser(userId,isVerificationUser);
         return BaseResponse.builder()
-                .code(user.getCode())
-                .isSuccess(true)
-                .message("Berhasil verification user")
+                .message(user.getMessage())
+                .isSuccess(user.isSuccess())
                 .build();
     }
 
-    @GetMapping(
-            value = "/{userId}/get",
-            produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public BaseResponse<Object> getUser(
-            @PathVariable("userId") String userId
-    ) {
-        BaseResponse<Object> user = userService.getUserById(userId);
-        return BaseResponse.builder()
-                .code(user.getCode())
-                .isSuccess(true)
-                .message("Berhasil mendapatkan data user")
-                .data(user.getData())
-                .build();
-    }
-
-    @PostMapping(
-            value = "/{userId}/image-verification",
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = {
-                    MediaType.APPLICATION_JSON_VALUE,
-                    MediaType.MULTIPART_FORM_DATA_VALUE
-            }
-    )
-    public BaseResponse<Object> uploadImageVerificationUser(
-            @PathVariable String userId,
-            @RequestParam("value") MultipartFile imageVerificationUser) throws IOException {
-        BaseResponse<Object> verificationUser = userService.uploadImageVerificationUser(userId, imageVerificationUser);
-        return BaseResponse.builder()
-                .code(200)
-                .status("Success")
-                .message(verificationUser.getMessage())
-                .data(null)
-                .build();
-    }
-
-    @GetMapping(
-            value = "/image-verification/{id}",
-            produces = MediaType.IMAGE_JPEG_VALUE
-    )
-    public ResponseEntity<byte[]> getFiles(
-            @PathVariable String id
-    ) {
-        var filesDB = userService.getVerificationUserImageById(id);
-
-        return ResponseEntity.ok()
-                .body(filesDB.getImageData());
-
-    }
 }

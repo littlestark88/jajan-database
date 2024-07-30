@@ -1,35 +1,31 @@
 package com.littlestark.jajan.service.store;
 
-import com.littlestark.jajan.model.entity.StoreEntity;
-import com.littlestark.jajan.model.request.store.StoreRequest;
+import com.fasterxml.jackson.databind.ser.Serializers;
+import com.littlestark.jajan.model.request.store.CreateStoreRequest;
+import com.littlestark.jajan.model.request.store.UpdateStoreRequest;
+import com.littlestark.jajan.model.request.store.VerificationStoreListByNameRequest;
+import com.littlestark.jajan.model.request.store.VerificationStoreListRequest;
 import com.littlestark.jajan.model.response.BaseResponse;
-import java.io.IOException;
-import org.springframework.web.multipart.MultipartFile;
 
 public interface IStoreService {
 
     BaseResponse<Object> createStore(
             String userId,
-            StoreRequest storeRequest,
-            MultipartFile imageStore
-    ) throws IOException;
-
-    BaseResponse<Object> changeNameStore(
-            String userId,
-            String nameStore
+            CreateStoreRequest createStoreRequest
     );
-
+    BaseResponse<Object> updateStore(
+            String userId,
+            UpdateStoreRequest updateStoreRequest
+    );
     BaseResponse<Object> verificationStore(
             String userId,
             boolean isVerificationStore
     );
+    BaseResponse<Object> getVerificationStoreList(VerificationStoreListRequest verificationStoreListRequest);
 
-    BaseResponse<Object> uploadImageStore(
-            String userId,
-            MultipartFile imageStore
-    ) throws IOException;
+    BaseResponse<Object> getStoreByUserId(String userId);
+    BaseResponse<Object> getStoreList(VerificationStoreListRequest verificationStoreListRequest);
+    BaseResponse<Object> getStoreListByName(VerificationStoreListByNameRequest verificationStoreListByNameRequest);
+    BaseResponse<Object> getStoreOrProductListByName(VerificationStoreListByNameRequest verificationStoreListByNameRequest);
 
-    BaseResponse<Object> getStoreList();
-
-    StoreEntity getStoreImageById(String id);
 }

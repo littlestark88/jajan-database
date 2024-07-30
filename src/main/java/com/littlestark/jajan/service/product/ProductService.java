@@ -1,19 +1,21 @@
 package com.littlestark.jajan.service.product;
 
 import com.littlestark.jajan.model.entity.ProductEntity;
+import com.littlestark.jajan.model.request.product.ProductListRequest;
 import com.littlestark.jajan.model.request.product.ProductRequest;
 import com.littlestark.jajan.model.response.BaseResponse;
+import com.littlestark.jajan.model.response.product.ProductResponse;
 import com.littlestark.jajan.repository.IAuthenticationRepository;
 import com.littlestark.jajan.repository.IProductRepository;
-import jakarta.transaction.Transactional;
+import com.littlestark.jajan.repository.IStoreRepository;
+import com.littlestark.jajan.utils.ResourceValue;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.util.Arrays;
+import java.util.Base64;
 
 @Service
 @AllArgsConstructor
@@ -23,44 +25,109 @@ public class ProductService implements IProductService {
     private IAuthenticationRepository authenticationRepository;
     @Autowired
     private IProductRepository productRepository;
+    final private ResourceValue resourceValue;
+    @Autowired
+    private IStoreRepository storeRepository;
 
     @Override
-    public BaseResponse<Object> createProduct(String userId, ProductRequest productRequest, MultipartFile imageProduct) throws IOException {
+    public BaseResponse<Object> createProduct(String userId, ProductRequest productRequest) {
 
-        var userEntity = authenticationRepository.findById(userId).orElseThrow();
-        var product = ProductEntity
-                .builder()
-                .titleName(productRequest.getTitleProduct())
-                .descriptionProduct(productRequest.getDescriptionProduct())
-                .typeProduct(productRequest.getTypeProduct())
-                .price(productRequest.getPriceProduct())
-                .imageProduct(imageProduct.getBytes())
-                .categoryProduct(productRequest.getCategoryProduct())
-                .userProduct(userEntity)
-                .build();
+        var message = resourceValue.getEmptyString();
+        var isSuccess = false;
 
-        productRepository.save(product);
+        if(productRequest.getImageProduct().length() > 1000000) {
+            message = resourceValue.getImageMaxSize();
+        } else {
+            byte[] imageStore = Base64.getDecoder().decode(productRequest.getImageProduct());
+            var userEntity = storeRepository.findById(userId).orElseThrow();
+            var product = ProductEntity
+                    .builder()
+                    .nameProduct(productRequest.getNameProduct())
+                    .descriptionProduct(productRequest.getDescriptionProduct())
+                    .price(productRequest.getPriceProduct())
+                    .imageProduct(imageStore)
+                    .categoryProduct(productRequest.getCategoryProduct())
+                    .storeProduct(userEntity)
+                    .build();
+
+            message = resourceValue.getSuccessCreateProduct();
+            isSuccess = true;
+            productRepository.save(product);
+        }
 
         return BaseResponse
                 .builder()
-                .message("Berhasil menambahkan product baru")
+                .message(message)
+                .isSuccess(isSuccess)
                 .build();
     }
 
     @Override
-    @Transactional
-    public BaseResponse<Object> getProductByUserId(String userId, int page, int size) {
+    public BaseResponse<Object> updateProduct(String productId, ProductRequest productRequest) {
 
-        Pageable pageable = PageRequest.of(page, size);
-        var product = productRepository.findProductById(userId, pageable);
+        var message = resourceValue.getEmptyString();
+        byte[] imageStore = Base64.getDecoder().decode(productRequest.getImageProduct());
+        var productData =  productRepository.findById(productId);
+        var isSuccess = false;
+        if(productRequest.getImageProduct().length() > 1000000) {
+            message = resourceValue.getImageMaxSize();
+        } else {
+            if (productData.isPresent()) {
+                var product = ProductEntity
+                        .builder()
+                        .id(productId)
+                        .nameProduct(productRequest.getNameProduct())
+                        .descriptionProduct(productRequest.getDescriptionProduct())
+                        .price(productRequest.getPriceProduct())
+                        .imageProduct(imageStore)
+                        .categoryProduct(productRequest.getCategoryProduct())
+                        .build();
+                isSuccess = true;
+                message = resourceValue.getSuccessUpdateProduct();
+                productRepository.save(product);
+            }
+        }
+
+        return BaseResponse
+                .builder()
+                .message(message)
+                .isSuccess(isSuccess)
+                .build();
+    }
+
+    @Override
+    public BaseResponse<Object> deleteProduct(String productId) {
+        var isSuccess = false;
+        if (productRepository.findById(productId).isPresent()) {
+            productRepository.deleteById(productId);
+            isSuccess = true;
+        }
+
+        return BaseResponse
+                .builder()
+                .message(resourceValue.getSuccessDeleteProduct())
+                .isSuccess(isSuccess)
+                .build();
+    }
+
+    @Override
+    public BaseResponse<Object> getProductList(ProductListRequest productListRequest, String storeId) {
+        PageRequest paging = PageRequest.of(productListRequest.getPage(), productListRequest.getSize());
+
+        var store = productRepository.findByStoreProductId(storeId, paging).stream().map(productEntity -> ProductResponse
+                .builder()
+                .id(productEntity.getId())
+                .nameProduct(productEntity.getNameProduct())
+                .imageProduct(Arrays.toString(productEntity.getImageProduct()))
+                .descriptionProduct(productEntity.getDescriptionProduct())
+                .price(productEntity.getPrice())
+                .categoryProduct(productEntity.getCategoryProduct())
+                .build()).toList();
 
         return BaseResponse.builder()
-                .data(product)
+                .data(store)
+                .isSuccess(true)
                 .build();
     }
 
-    @Override
-    public ProductEntity getImageById(String id) {
-        return productRepository.findById(id).get();
-    }
 }

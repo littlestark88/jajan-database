@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.littlestark.jajan.JajanApplicationTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2024-07-23T06:58:48" hostname="DESKTOP-DHUFH4I" time="0.202">
+  <properties/>
+  <testcase name="contextLoads()" classname="com.littlestark.jajan.JajanApplicationTests" time="0.202"/>
+  <system-out><![CDATA[13:58:41.031 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Neither @ContextConfiguration nor @ContextHierarchy found for test class [JajanApplicationTests]: using SpringBootContextLoader
+13:58:41.038 [Test worker] DEBUG org.springframework.test.context.support.AbstractContextLoader - Could not detect default resource locations for test class [com.littlestark.jajan.JajanApplicationTests]: no resource found for suffixes {-context.xml, Context.groovy}.
+13:58:41.039 [Test worker] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils - Could not detect default configuration classes for test class [com.littlestark.jajan.JajanApplicationTests]: JajanApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+13:58:41.070 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using ContextCustomizers for test class [JajanApplicationTests]: [DisableObservabilityContextCustomizer, PropertyMappingContextCustomizer, Customizer, ExcludeFilterContextCustomizer, DuplicateJsonObjectContextCustomizer, MockitoContextCustomizer, TestRestTemplateContextCustomizer]
+13:58:41.167 [Test worker] DEBUG org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider - Identified candidate component class: file [C:\Users\Little Stark\Documents\database\jajan-database\build\classes\java\main\com\littlestark\jajan\JajanApplication.class]
+13:58:41.169 [Test worker] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Found @SpringBootConfiguration com.littlestark.jajan.JajanApplication for test class com.littlestark.jajan.JajanApplicationTests
+13:58:41.337 [Test worker] DEBUG org.springframework.boot.test.context.SpringBootTestContextBootstrapper - Using TestExecutionListeners for test class [JajanApplicationTests]: [ServletTestExecutionListener, DirtiesContextBeforeModesTestExecutionListener, ApplicationEventsTestExecutionListener, MockitoTestExecutionListener, DependencyInjectionTestExecutionListener, DirtiesContextTestExecutionListener, TransactionalTestExecutionListener, SqlScriptsTestExecutionListener, WithSecurityContextTestExecutionListener, EventPublishingTestExecutionListener, ReactorContextTestExecutionListener, RestDocsTestExecutionListener, MockRestServiceServerResetTestExecutionListener, MockMvcPrintOnlyOnFailureTestExecutionListener, WebDriverTestExecutionListener, MockWebServiceServerTestExecutionListener, ResetMocksTestExecutionListener]
+13:58:41.339 [Test worker] DEBUG org.springframework.test.context.support.AbstractDirtiesContextTestExecutionListener - Before test class: class [JajanApplicationTests], class annotated with @DirtiesContext [false] with mode [null]
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.0.4)
+
+2024-07-23T13:58:41.845+07:00  INFO 35256 --- [    Test worker] c.l.jajan.JajanApplicationTests          : Starting JajanApplicationTests using Java 17.0.7 with PID 35256 (started by Little Stark in C:\Users\Little Stark\Documents\database\jajan-database)
+2024-07-23T13:58:41.847+07:00  INFO 35256 --- [    Test worker] c.l.jajan.JajanApplicationTests          : No active profile set, falling back to 1 default profile: "default"
+2024-07-23T13:58:42.977+07:00  INFO 35256 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-07-23T13:58:43.117+07:00  INFO 35256 --- [    Test worker] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 122 ms. Found 5 JPA repository interfaces.
+2024-07-23T13:58:43.826+07:00  INFO 35256 --- [    Test worker] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-07-23T13:58:43.906+07:00  INFO 35256 --- [    Test worker] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.1.7.Final
+2024-07-23T13:58:44.334+07:00  INFO 35256 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2024-07-23T13:58:44.763+07:00  INFO 35256 --- [    Test worker] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7d61468c
+2024-07-23T13:58:44.765+07:00  INFO 35256 --- [    Test worker] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2024-07-23T13:58:44.823+07:00  INFO 35256 --- [    Test worker] SQL dialect                              : HHH000400: Using dialect: org.hibernate.dialect.PostgreSQLDialect
+2024-07-23T13:58:45.177+07:00  WARN 35256 --- [    Test worker] org.hibernate.id.UUIDHexGenerator        : HHH000409: Using org.hibernate.id.UUIDHexGenerator which does not generate IETF RFC 4122 compliant UUID values; consider using org.hibernate.id.UUIDGenerator instead
+2024-07-23T13:58:46.233+07:00  INFO 35256 --- [    Test worker] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2024-07-23T13:58:46.244+07:00  INFO 35256 --- [    Test worker] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-07-23T13:58:46.841+07:00  WARN 35256 --- [    Test worker] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-07-23T13:58:48.524+07:00  INFO 35256 --- [    Test worker] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@64657b13, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@686ee555, org.springframework.security.web.context.SecurityContextHolderFilter@46cb9794, org.springframework.security.web.header.HeaderWriterFilter@3feeab43, org.springframework.security.web.authentication.logout.LogoutFilter@750448fb, com.littlestark.jajan.config.JwtAuthenticationFilter@7866a7a6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7f88c53, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4c020e58, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@4fc00158, org.springframework.security.web.session.SessionManagementFilter@22c4151b, org.springframework.security.web.access.ExceptionTranslationFilter@54464330, org.springframework.security.web.access.intercept.AuthorizationFilter@43e9eddf]
+2024-07-23T13:58:48.895+07:00  INFO 35256 --- [    Test worker] c.l.jajan.JajanApplicationTests          : Started JajanApplicationTests in 7.491 seconds (process running for 9.09)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

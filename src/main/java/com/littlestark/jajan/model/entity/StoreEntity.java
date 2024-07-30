@@ -5,7 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.GenericGenerator;
+
+import java.util.List;
 
 @Data
 @Builder
@@ -26,23 +29,19 @@ public class StoreEntity {
     @Column(name = "address")
     private String address;
 
-    @Column(name = "district")
-    private String district;
-
-    @Column(name = "regency")
-    private String regency;
-
     @Column(name = "verification_store")
-    private boolean isVerificationStore;
+    private Boolean isVerificationStore;
 
-    @Column(name = "image_store")
-    @Lob
+    @Column(name = "image_store", length = 1000)
     private byte[] imageStore;
 
-    @OneToOne()
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(
             name = "user_id",
             referencedColumnName = "id"
     )
     private UserEntity userStore;
+
+    @OneToMany(mappedBy = "storeProduct", cascade = CascadeType.ALL)
+    private List<ProductEntity> product;
 }

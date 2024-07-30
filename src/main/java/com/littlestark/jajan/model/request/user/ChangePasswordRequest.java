@@ -8,13 +8,13 @@ import lombok.Data;
 public class ChangePasswordRequest {
     @NotNull
     @NotBlank(
-            message = "Email tidak boleh kosong, mohon untuk memasukan username anda"
+            message = "Password tidak boleh kosong, mohon untuk memasukan password anda"
     )
-    private String email;
+    private String oldPassword;
 
     @NotBlank(
             message = "Password tidak boleh kosong, mohon untuk memasukan password anda"
     )
     @NotNull
-    private String password;
+    private String newPassword;
 }

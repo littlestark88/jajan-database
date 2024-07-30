@@ -2,10 +2,14 @@ package com.littlestark.jajan.service.user;
 
 import com.littlestark.jajan.model.entity.UserEntity;
 import com.littlestark.jajan.model.entity.VerificationUserEntity;
+import com.littlestark.jajan.model.request.user.ChangePasswordRequest;
+import com.littlestark.jajan.model.request.user.ChangePhoneNumberRequest;
 import com.littlestark.jajan.model.response.BaseResponse;
 import com.littlestark.jajan.model.response.user.UserResponse;
 import com.littlestark.jajan.repository.IAuthenticationRepository;
 import com.littlestark.jajan.repository.IVerificationUserRepository;
+import com.littlestark.jajan.utils.ResourceValue;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,85 +18,77 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
+import java.util.Objects;
 
 @Service
+@AllArgsConstructor
 public class UserService implements IUserService {
 
     @Autowired
     private IAuthenticationRepository authenticationRepository;
-    @Autowired
-    private IVerificationUserRepository verificationUserRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    private final ResourceValue resourceValue;
 
     @Override
-    public BaseResponse<Object> changePassword(String userId, String password){
+    public BaseResponse<Object> changePassword(String userId, ChangePasswordRequest changePasswordRequest){
 
-        var user = authenticationRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User tidak ada"));
-
-        user.setPassword(passwordEncoder.encode(password));
-        authenticationRepository.save(user);
+        var user = authenticationRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, resourceValue.getUserNotFound()));
+        var message = resourceValue.getEmptyString();
+        var isSuccess = false;
+        if(passwordEncoder.matches(changePasswordRequest.getOldPassword(), user.getPassword())) {
+            user.setPassword(passwordEncoder.encode(changePasswordRequest.getNewPassword()));
+            authenticationRepository.save(user);
+            message = resourceValue.getSuccessChangePassword();
+            isSuccess = true;
+        } else {
+            message = resourceValue.getChangePasswordFailed();
+        }
         return BaseResponse.builder()
+                .message(message)
+                .isSuccess(isSuccess)
                 .build();
     }
 
     @Override
-    public BaseResponse<Object> changePhoneNumber(String userId, String phoneNumber) {
-        var user = authenticationRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User tidak ada"));
+    public BaseResponse<Object> changePhoneNumber(String userId, ChangePhoneNumberRequest changePhoneNumberRequest) {
+        var user = authenticationRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, resourceValue.getUserNotFound()));
 
-        user.setPhoneNumber(phoneNumber);
-        authenticationRepository.save(user);
-        return BaseResponse.builder().build();
+        var message = resourceValue.getEmptyString();
+        var isSuccess = false;
+        if(user.getPhoneNumber().equals(changePhoneNumberRequest.getOldPhoneNumber())) {
+            user.setPhoneNumber(changePhoneNumberRequest.getNewPhoneNumber());
+            authenticationRepository.save(user);
+            message = resourceValue.getSuccessChangePhoneNumber();
+            isSuccess = true;
+        } else {
+            message = resourceValue.getPhoneNumberNotSame();
+        }
+        return BaseResponse.builder()
+                .message(message)
+                .isSuccess(isSuccess)
+                .build();
     }
 
     @Override
     public BaseResponse<Object> verificationUser(String userId, Boolean isVerificationUser) {
-        var user = authenticationRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User tidak ada"));
-
-        user.setIsVerificationUser(isVerificationUser);
-        authenticationRepository.save(user);
-
-        return BaseResponse.builder().build();
-    }
-
-    @Override
-    public BaseResponse<Object> getUserById(String userId) {
-        var user = authenticationRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User tidak ada"));
-
-        var userResponse = UserResponse.builder()
-                .nameStore(user.getStoreEntity().getNameStore())
-                .email(user.getEmail())
-                .phoneNumber(user.getPhoneNumber())
-                .isStoreVerification(user.getStoreEntity().isVerificationStore())
-                .isUserVerification(user.getIsVerificationUser())
-                .build();
+        var user = authenticationRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, resourceValue.getUserNotFound()));
+        var message = resourceValue.getEmptyString();
+        var isSuccess = false;
+        if(!user.getIsVerificationUser()) {
+            user.setIsVerificationUser(isVerificationUser);
+            authenticationRepository.save(user);
+            message = resourceValue.getSuccessVerificationUser();
+            isSuccess = true;
+        } else {
+            message = resourceValue.getUserVerify();
+        }
 
         return BaseResponse.builder()
-                .data(userResponse)
+                .message(message)
+                .isSuccess(isSuccess)
                 .build();
     }
 
-    @Override
-    public BaseResponse<Object> uploadImageVerificationUser(String userId, MultipartFile imageUser) throws IOException {
-        var user = authenticationRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User tidak ada"));
-
-        var verificationImageUser = VerificationUserEntity.builder()
-                .imageData(imageUser.getBytes())
-                .userVerification(user)
-                .build();
-
-        verificationUserRepository.save(verificationImageUser);
-
-        return BaseResponse.builder()
-                .message("Berhasil upload image")
-                .build();
-
-    }
-
-    @Override
-    public VerificationUserEntity getVerificationUserImageById(String id) {
-        var user = authenticationRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User tidak ada"));
-        return user.getVerificationUserEntity();
-    }
 }

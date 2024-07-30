@@ -1,0 +1,11 @@
+{
+  "groups": [
+    {
+      "name": "app",
+      "type": "com.littlestark.jajan.utils.ResourceValue",
+      "sourceType": "com.littlestark.jajan.utils.ResourceValue"
+    }
+  ],
+  "properties": [],
+  "hints": []
+}

@@ -7,10 +7,8 @@ import lombok.Data;
 @Builder
 public class BaseResponse<T> {
 
-    private Integer code;
-    private String status;
     private String message;
     private String token;
-    private Boolean isSuccess;
+    private boolean isSuccess;
     private T data;
 }

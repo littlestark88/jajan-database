@@ -1,5 +1,6 @@
 package com.littlestark.jajan.controller.product;
 
+import com.littlestark.jajan.model.request.product.ProductListRequest;
 import com.littlestark.jajan.model.request.product.ProductRequest;
 import com.littlestark.jajan.model.response.BaseResponse;
 import com.littlestark.jajan.service.product.IProductService;
@@ -31,46 +32,65 @@ public class ProductController {
     )
     public BaseResponse<Object> createProduct(
             @PathVariable String userId,
-            @RequestPart("product") ProductRequest productRequest,
-            @RequestPart("imageProduct")MultipartFile imageProduct) throws IOException {
-        BaseResponse<Object> product = productService.createProduct(userId, productRequest, imageProduct);
+            @RequestBody ProductRequest productRequest) {
+        BaseResponse<Object> product = productService.createProduct(userId, productRequest);
         return BaseResponse.builder()
-                .code(200)
-                .status("Success")
                 .message(product.getMessage())
+                .isSuccess(product.isSuccess())
                 .data(null)
                 .build();
     }
 
+    @PutMapping(
+            value = "/{productId}/update",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = {
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.MULTIPART_FORM_DATA_VALUE
+            }
+    )
+    public BaseResponse<Object> updateProduct(
+            @PathVariable String productId,
+            @RequestBody ProductRequest productRequest) {
+        BaseResponse<Object> product = productService.updateProduct(productId, productRequest);
+        return BaseResponse.builder()
+                .message(product.getMessage())
+                .isSuccess(product.isSuccess())
+                .data(null)
+                .build();
+    }
 
-    @GetMapping(
-            value = "/{userId}/list",
+    @DeleteMapping(
+            value = "/{productId}/delete",
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public BaseResponse<Object> getProductByUserId(
-            @PathVariable("userId") String userId,
-            @PathParam("page") int page,
-            @PathParam("size") int size) {
-        BaseResponse<Object> productByUserId = productService.getProductByUserId(userId, page, size);
+    public BaseResponse<Object> deleteProduct(
+            @PathVariable String productId) {
+        BaseResponse<Object> product = productService.deleteProduct(productId);
         return BaseResponse.builder()
-                .code(200)
-                .status("Success")
-                .message("")
-                .data(productByUserId.getData())
+                .message(product.getMessage())
+                .isSuccess(product.isSuccess())
+                .data(null)
                 .build();
     }
 
     @GetMapping(
-            value = "/image-product/{id}",
-            produces = MediaType.IMAGE_JPEG_VALUE
+            value = "/{storeId}/list",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = {
+                    MediaType.APPLICATION_JSON_VALUE,
+                    MediaType.MULTIPART_FORM_DATA_VALUE
+            }
     )
-    public ResponseEntity<byte[]> getFiles(
-            @PathVariable String id
-    ) {
-        var filesDB = productService.getImageById(id);
-
-        return ResponseEntity.ok()
-                .body(filesDB.getImageProduct());
-
+    public BaseResponse<Object> getProductList(
+            @PathVariable String storeId,
+            @RequestBody ProductListRequest productListRequest) {
+        BaseResponse<Object> product = productService.getProductList(productListRequest, storeId);
+        return BaseResponse.builder()
+                .message("")
+                .data(product.getData())
+                .isSuccess(product.isSuccess())
+                .build();
     }
+
 }
