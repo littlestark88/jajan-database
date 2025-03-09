@@ -13,6 +13,7 @@ spring:
     url: jdbc:postgresql://postgres:yaawvDedyQeOLBktQVLHxEtWVLvzLtDM@postgres.railway.internal:5432/railway
     username: postgres
     password: yaawvDedyQeOLBktQVLHxEtWVLvzLtDM
+    driver-class-name: org.postgresql.Driver
   jpa:
     database: POSTGRESQL
     hibernate:
