@@ -10,9 +10,9 @@ spring:
       idle-timeout: 600000
       max-lifetime: 1800000
       maximum-pool-size: 10
-    url: jdbc:postgresql://127.0.0.1/jajan
-    username: littlestark
-    password: Vouchergamers88
+    url: jdbc:postgresql://postgres:yaawvDedyQeOLBktQVLHxEtWVLvzLtDM@postgres.railway.internal:5432/railway
+    username: postgres
+    password: yaawvDedyQeOLBktQVLHxEtWVLvzLtDM
   jpa:
     database: POSTGRESQL
     hibernate:
