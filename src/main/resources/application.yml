@@ -10,9 +10,9 @@ spring:
       idle-timeout: 600000
       max-lifetime: 1800000
       maximum-pool-size: 10
-    url: jdbc:postgresql://postgres:yaawvDedyQeOLBktQVLHxEtWVLvzLtDM@caboose.proxy.rlwy.net:17691/railway
-    username: postgres
-    password: yaawvDedyQeOLBktQVLHxEtWVLvzLtDM
+    url: jdbc:postgresql://${DATABASE_HOST:postgres.railway.internal}:${DATABASE_PORT:5432}/${DATABASE_NAME:railway}
+    username: ${DATABASE_USER:postgres}
+    password: ${DATABASE_PASSWORD:yaawvDedyQeOLBktQVLHxEtWVLvzLtDM}
     driver-class-name: org.postgresql.Driver
   jpa:
     database: POSTGRESQL
