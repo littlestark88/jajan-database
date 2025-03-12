@@ -7,6 +7,7 @@ import com.littlestark.jajan.model.entity.UserEntity;
 import com.littlestark.jajan.model.request.user.CreateUserRequest;
 import com.littlestark.jajan.model.request.user.LoginUserRequest;
 import com.littlestark.jajan.model.response.BaseResponse;
+import com.littlestark.jajan.model.response.user.LoginResponse;
 import com.littlestark.jajan.repository.IAuthenticationRepository;
 import com.littlestark.jajan.repository.ITokenRepository;
 import com.littlestark.jajan.service.email.IEmail;
@@ -175,17 +176,24 @@ public class AuthenticationService implements IAuthenticationService {
         var token = resourceValue.getEmptyString();
         var message = resourceValue.getEmptyString();
         var isSuccess = false;
+        LoginResponse loginResponse = null;
         if(passwordEncoder.matches(loginUserRequest.getPassword(), userEntity.getPassword())) {
             token = jwtService.generateToken(userEntity);
             message = resourceValue.getSuccessLogin();
             isSuccess = true;
-
+            loginResponse = LoginResponse
+                    .builder()
+                    .isVerificationUser(userEntity.getIsVerificationUser())
+                    .userId(userEntity.getId())
+                    .email(userEntity.getEmail())
+                    .phoneNumber(userEntity.getPhoneNumber())
+                    .build();
         }
 
         return BaseResponse.builder()
                 .token(token)
                 .message(message)
-                .data(userEntity.getId())
+                .data(loginResponse)
                 .isSuccess(isSuccess)
                 .build();
     }

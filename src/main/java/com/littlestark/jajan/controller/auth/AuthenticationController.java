@@ -39,11 +39,12 @@ public class AuthenticationController {
     )
     public BaseResponse<Object> authenticationUser(@RequestBody LoginUserRequest loginUserRequest) {
         BaseResponse<Object> user = userService.authenticationLogin(loginUserRequest);
-        LoginResponse loginResponse = new LoginResponse(user.getData().toString());
+
+//        LoginResponse loginResponse = new LoginResponse();
         return BaseResponse.builder()
                 .token(user.getToken())
                 .message(user.getMessage())
-                .data(loginResponse)
+                .data(user.getData())
                 .isSuccess(user.isSuccess())
                 .build();
     }

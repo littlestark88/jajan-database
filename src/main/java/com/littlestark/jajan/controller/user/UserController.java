@@ -2,6 +2,7 @@ package com.littlestark.jajan.controller.user;
 
 import com.littlestark.jajan.model.request.user.ChangePasswordRequest;
 import com.littlestark.jajan.model.request.user.ChangePhoneNumberRequest;
+import com.littlestark.jajan.model.request.user.ResendEmailVerificationRequest;
 import com.littlestark.jajan.model.response.BaseResponse;
 import com.littlestark.jajan.service.user.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -66,4 +67,18 @@ public class UserController {
                 .build();
     }
 
+
+    @PostMapping(
+            value = "/resend-email-verification",
+            produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public BaseResponse<Object> resendEmailVerification(
+            @RequestBody ResendEmailVerificationRequest resendEmailVerificationRequest
+            ) {
+        BaseResponse<Object> emailResend = userService.resendEmailVerification(resendEmailVerificationRequest.getEmail(), resendEmailVerificationRequest.getToken());
+        return BaseResponse.builder()
+                .message(emailResend.getMessage())
+                .isSuccess(emailResend.isSuccess())
+                .build();
+    }
 }

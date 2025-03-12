@@ -9,6 +9,7 @@ public interface IUserService {
     BaseResponse<Object> changePassword(String userId, ChangePasswordRequest changePasswordRequest);
     BaseResponse<Object> changePhoneNumber(String userId, ChangePhoneNumberRequest changePhoneNumberRequest);
     BaseResponse<Object> verificationUser(String userId, Boolean isVerificationUser);
+    BaseResponse<Object> resendEmailVerification(String email, String token);
 
 
 }
