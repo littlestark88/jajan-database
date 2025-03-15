@@ -21,7 +21,7 @@ public class StoreEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private String id;
+    private String storeId;
 
     @Column(name = "name_store")
     private String nameStore;
@@ -31,6 +31,9 @@ public class StoreEntity {
 
     @Column(name = "verification_store")
     private Boolean isVerificationStore;
+
+    @Column(name = "created_store")
+    private Boolean isCreatedStore;
 
     @Column(name = "image_store", length = 1000)
     private byte[] imageStore;

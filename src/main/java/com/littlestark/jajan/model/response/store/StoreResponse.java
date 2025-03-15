@@ -15,5 +15,6 @@ public class StoreResponse {
     private String address;
     private String imageStore;
     private boolean isVerificationStore;
+    private boolean isCreatedStore;
     private String userId;
 }
