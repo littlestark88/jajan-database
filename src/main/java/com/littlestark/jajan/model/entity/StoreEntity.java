@@ -21,7 +21,7 @@ public class StoreEntity {
     @Id
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    private String storeId;
+    private String id;
 
     @Column(name = "name_store")
     private String nameStore;

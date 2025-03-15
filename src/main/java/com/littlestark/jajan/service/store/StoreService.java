@@ -80,7 +80,7 @@ public class StoreService implements IStoreService{
     @Override
     public BaseResponse<Object> updateStore(String userId, UpdateStoreRequest updateStoreRequest) {
         var userEntity = authenticationRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, resourceValue.getUserNotFound()));
-        var store = storeRepository.findFirstByUserStoreAndId(userEntity, userEntity.getStoreEntity().getStoreId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, resourceValue.getUserNotFound()));
+        var store = storeRepository.findFirstByUserStoreAndId(userEntity, userEntity.getStoreEntity().getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, resourceValue.getUserNotFound()));
         var message = resourceValue.getEmptyString();
         var isSuccess = false;
         if(updateStoreRequest.getImageStore().length() > 1000000) {
@@ -106,7 +106,7 @@ public class StoreService implements IStoreService{
     @Override
     public BaseResponse<Object> verificationStore(String userId, boolean isVerificationStore) {
         var userEntity = authenticationRepository.findById(userId).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, resourceValue.getUserNotFound()));
-        var store = storeRepository.findFirstByUserStoreAndId(userEntity, userEntity.getStoreEntity().getStoreId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, resourceValue.getUserNotFound()));
+        var store = storeRepository.findFirstByUserStoreAndId(userEntity, userEntity.getStoreEntity().getId()).orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, resourceValue.getUserNotFound()));
 
         store.setIsVerificationStore(isVerificationStore);
 
@@ -123,7 +123,7 @@ public class StoreService implements IStoreService{
         PageRequest paging = PageRequest.of(verificationStoreListRequest.getPage(), verificationStoreListRequest.getSize());
         var store = storeRepository.findByIsVerificationStoreFalse(paging).stream().map( storeEntity -> StoreResponse
                 .builder()
-                .id(storeEntity.getStoreId())
+                .id(storeEntity.getId())
                 .nameStore(storeEntity.getNameStore())
                 .imageStore(Arrays.toString(storeEntity.getImageStore()))
                 .isVerificationStore(storeEntity.getIsVerificationStore())
@@ -144,7 +144,7 @@ public class StoreService implements IStoreService{
                 .nameStore(store.getNameStore())
                 .address(store.getAddress())
                 .imageStore(store.getImageStore())
-                .storeId(store.getStoreId())
+                .id(store.getId())
                 .isVerificationStore(store.getIsVerificationStore())
                 .isCreatedStore(store.getIsCreatedStore())
                 .build();
@@ -161,7 +161,7 @@ public class StoreService implements IStoreService{
         PageRequest paging = PageRequest.of(verificationStoreListRequest.getPage(), verificationStoreListRequest.getSize());
         var store = storeRepository.findAll(paging).stream().map( storeEntity -> StoreResponse
                 .builder()
-                .id(storeEntity.getStoreId())
+                .id(storeEntity.getId())
                 .nameStore(storeEntity.getNameStore())
                 .imageStore(Arrays.toString(storeEntity.getImageStore()))
                 .isVerificationStore(storeEntity.getIsVerificationStore())
@@ -178,7 +178,7 @@ public class StoreService implements IStoreService{
         PageRequest paging = PageRequest.of(verificationStoreListByNameRequest.getPage(), verificationStoreListByNameRequest.getSize());
         var store = storeRepository.findByNameStoreContaining(verificationStoreListByNameRequest.getName(), paging).stream().map( storeEntity -> StoreResponse
                 .builder()
-                .id(storeEntity.getStoreId())
+                .id(storeEntity.getId())
                 .nameStore(storeEntity.getNameStore())
                 .imageStore(Arrays.toString(storeEntity.getImageStore()))
                 .isVerificationStore(storeEntity.getIsVerificationStore())
@@ -196,7 +196,7 @@ public class StoreService implements IStoreService{
         PageRequest paging = PageRequest.of(verificationStoreListByNameRequest.getPage(), verificationStoreListByNameRequest.getSize());
         var store = storeRepository.findByNameStoreOrNameProductContaining(verificationStoreListByNameRequest.getName(), paging).stream().map( storeEntity -> StoreResponse
                 .builder()
-                .id(storeEntity.getStoreId())
+                .id(storeEntity.getId())
                 .nameStore(storeEntity.getNameStore())
                 .imageStore(Arrays.toString(storeEntity.getImageStore()))
                 .isVerificationStore(storeEntity.getIsVerificationStore())
